@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f1e9">
+  <title>TEF — Store Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+<script src="{{ url_for('static', filename='admin.js') }}" defer></script>
+</head>
+<body>
+  <header class="admin-topbar">
+    <a class="brand" href="{{ url_for('index') }}">THE EDGES <span>FRAGRANCE</span></a>
+    <div class="topbar-right"><span class="admin-label">STORE MANAGEMENT</span><a href="{{ url_for('index') }}" class="view-store">View storefront ↗</a></div>
+  </header>
+
+  <main class="admin-shell">
+    <section class="login-card" id="loginCard">
+      <p class="eyebrow">PRIVATE STORE AREA</p>
+      <h1 id="loginTitle">Welcome <em>back.</em></h1>
+      <p class="login-copy" id="loginCopy">Enter your admin password to manage your fragrance collection.</p>
+      <form id="loginForm">
+        <label for="adminPassword" id="passwordLabel">Admin password</label>
+        <input id="adminPassword" type="password" autocomplete="current-password" required minlength="8" placeholder="Enter password">
+        <button class="primary-btn" id="loginButton" type="submit">Unlock dashboard <span>→</span></button>
+        <p class="form-message" id="loginMessage" role="alert"></p>
+      </form>
+      <p class="security-note">This lightweight dashboard is intended for managing the catalogue on this browser and device. It is not server-side authentication.</p>
+    </section>
+
+    <section class="dashboard hidden" id="dashboard">
+      <div class="dashboard-heading">
+        <div><p class="eyebrow">THE EDGES FRAGRANCE / CONTROL ROOM</p><h1>Your <em>collection.</em></h1><p class="dashboard-subtitle">Add new scents, update product details and upload your own photographs.</p></div>
+        <button class="outline-btn" id="logoutButton">Lock dashboard</button>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><span>PRODUCTS</span><strong id="statProducts">0</strong></div>
+        <div class="stat-card"><span>PRICED PRODUCTS</span><strong id="statPriced">0</strong></div>
+        <div class="stat-card"><span>IMAGE UPLOADS</span><strong>YOUR DEVICE</strong></div>
+      </div>
+
+      <div class="admin-layout">
+        <section class="editor-card">
+          <div class="card-heading"><div><p class="eyebrow">PRODUCT DETAILS</p><h2 id="editorTitle">Add a product</h2></div><span class="edit-mark">TEF / 01</span></div>
+          <form id="productForm">
+            <input type="hidden" id="productId">
+            <label for="productName">Product name *</label><input id="productName" maxlength="70" required placeholder="e.g. Amber Reverie">
+            <label for="productDescription">Short description</label><textarea id="productDescription" rows="3" maxlength="180" placeholder="Describe the fragrance in a few words"></textarea>
+            <div class="two-col">
+              <div><label for="productPrice">Price (GH₵) *</label><input id="productPrice" type="number" min="0.01" step="0.01" required placeholder="Enter selling price"></div>
+              <div><label for="productTag">Collection label</label><input id="productTag" maxlength="35" placeholder="e.g. THE SIGNATURE EDIT"></div>
+            </div>
+            <label for="productImage">Product photograph *</label>
+            <label class="upload-box" for="productImage">
+              <span class="upload-symbol">＋</span><strong>Choose an image from your device</strong><small>JPG, PNG or WEBP · Max 8 MB · Square or portrait works best</small>
+              <input id="productImage" type="file" accept="image/jpeg,image/png,image/webp">
+            </label>
+            <div class="image-preview-wrap hidden" id="previewWrap"><img id="imagePreview" alt="Selected product image preview"><button type="button" id="clearImage" class="clear-image">Remove selected image</button></div>
+            <p class="form-message" id="productMessage" role="status"></p>
+            <div class="form-actions"><button class="primary-btn" type="submit" id="saveProductButton">Save product <span>→</span></button><button class="outline-btn hidden" type="button" id="cancelEdit">Cancel edit</button></div>
+          </form>
+        </section>
+
+        <section class="catalogue-card">
+          <div class="card-heading catalogue-heading"><div><p class="eyebrow">LIVE STORE CATALOGUE</p><h2>Your products</h2></div><span class="count-pill" id="catalogueCount">0 ITEMS</span></div>
+          <div id="adminProductList" class="admin-product-list"></div>
+          <div class="catalogue-actions"><button class="outline-btn" id="restoreSamples">Restore starter examples</button><button class="outline-btn" id="exportCatalogue">Export backup</button><label class="outline-btn import-label" for="importFile">Import backup<input type="file" id="importFile" accept="application/json"></label></div>
+          <p class="backup-note">Tip: export a backup after making changes. Imported backups replace the current catalogue on this browser.</p>
+        </section>
+      </div>
+      <div class="notice">
+        <strong>Important:</strong>
+        Products are managed through the TEF server database.
+        Changes saved here will be available to customers across devices.
+      </div>
+    </section>
+  </main>
+  <div class="admin-toast" id="adminToast" role="status" aria-live="polite"></div>
+</body>
+</html>
